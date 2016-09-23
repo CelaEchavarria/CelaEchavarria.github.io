@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Wrangle OpenStreetMap Data</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+<body>
+
+    <div class="navigation pure-menu pure-menu-horizontal">
+        <a href="/" class="pure-menu-heading  pure-menu-link">CelaEchavarria</a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item"></li>
+
+            <li class="pure-menu-item"><a href="/pages/about-me.html" class="pure-menu-link">About Me</a></li>
+            <li class="pure-menu-item pure-menu-selected"><a href="/category/udacity-projects.html" class="pure-menu-link">Udacity Projects</a></li>
+        </ul>
+    </div>
+
+
+<div class="page-container">
+    <div class="entry-content">
+        <div class="post-meta pure-g">
+<div class="pure-u-3-4 meta-data">
+    <a href="/category/udacity-projects.html" class="category">Udacity Projects</a><br />
+
+    <a class="author" href="/author/celaechavarria.html">CelaEchavarria</a>
+    &mdash; <abbr title="2016-09-21T00:00:00-07:00">Wed 21 September 2016</abbr>
+</div>        </div>
+    </div>
+
+    <div class="article-header-container">
+        <div class="background-image-container">
+
+            <div class="background-image" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://upload.wikimedia.org/wikipedia/commons/f/f4/Panor%C3%A1mica_de_Medell%C3%ADn.jpg);">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Panor%C3%A1mica_de_Medell%C3%ADn.jpg" alt="Wrangle OpenStreetMap Data">
+                <div class="title">
+                <h1>
+                    Wrangle OpenStreetMap Data
+                </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="entry-content">
+        <h2>Medellin, Colombia</h2>
+<p>I chose to work on Medellin, Colombia because it is my hometown and I was curious how accurate the  information currently is and how it has changed overtime.  </p>
+<div class="highlight"><pre><span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;node&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;dict&#39;</span><span class="p">,</span>
+        <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;lat&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">},</span>
+            <span class="s">&#39;lon&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">},</span>
+            <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+            <span class="s">&#39;uid&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;version&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+            <span class="s">&#39;changeset&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;node_tags&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;list&#39;</span><span class="p">,</span>
+        <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;dict&#39;</span><span class="p">,</span>
+            <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+                <span class="s">&#39;key&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+                <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;way&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;dict&#39;</span><span class="p">,</span>
+        <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+            <span class="s">&#39;uid&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;version&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+            <span class="s">&#39;changeset&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+            <span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;way_nodes&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;list&#39;</span><span class="p">,</span>
+        <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;dict&#39;</span><span class="p">,</span>
+            <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+                <span class="s">&#39;node_id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+                <span class="s">&#39;position&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;way_tags&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;list&#39;</span><span class="p">,</span>
+        <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;dict&#39;</span><span class="p">,</span>
+            <span class="s">&#39;schema&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;coerce&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">},</span>
+                <span class="s">&#39;key&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+                <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">},</span>
+                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">,</span> <span class="s">&#39;required&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h5>Created a sample file to work with at the beginning</h5>
+<div class="highlight"><pre><span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>  <span class="c"># Use cElementTree or lxml if too slow</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+<span class="kn">import</span> <span class="nn">cerberus</span>
+<span class="c">#import schema</span>
+
+<span class="n">NODES_PATH</span> <span class="o">=</span> <span class="s">&#39;nodes.csv&#39;</span>
+<span class="n">NODE_TAGS_PATH</span> <span class="o">=</span> <span class="s">&quot;nodes_tags.csv&quot;</span>
+<span class="n">WAYS_PATH</span> <span class="o">=</span> <span class="s">&quot;ways.csv&quot;</span>
+<span class="n">WAY_NODES_PATH</span> <span class="o">=</span> <span class="s">&quot;ways_nodes.csv&quot;</span>
+<span class="n">WAY_TAGS_PATH</span> <span class="o">=</span> <span class="s">&quot;ways_tags.csv&quot;</span>
+
+<span class="n">LOWER_COLON</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^([a-z]|_)+:([a-z]|_)+&#39;</span><span class="p">)</span>
+<span class="n">PROBLEMCHARS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;[=\+/&amp;&lt;&gt;;</span><span class="se">\&#39;</span><span class="s">&quot;\?%#$@\,\. \t\r\n]&#39;</span><span class="p">)</span>
+
+<span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">schema</span>
+
+<span class="n">OSM_FILE</span> <span class="o">=</span> <span class="s">&quot;medellin_colombia.osm&quot;</span>  <span class="c"># Replace this with your osm file</span>
+<span class="n">SAMPLE_FILE</span> <span class="o">=</span> <span class="s">&quot;sample.osm&quot;</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">5</span> <span class="c"># Parameter: take every k-th top level element</span>
+
+<span class="k">def</span> <span class="nf">get_element</span><span class="p">(</span><span class="n">OSM_FILE</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;node&#39;</span><span class="p">,</span> <span class="s">&#39;way&#39;</span><span class="p">,</span> <span class="s">&#39;relation&#39;</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Yield element if it is the right type of tag</span>
+
+<span class="sd">    Reference:</span>
+<span class="sd">    http://stackoverflow.com/questions/3095434/inserting-newlines-in-xml-file-generated-via-xml-etree-elementtree-in-python.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">OSM_FILE</span><span class="p">,</span> <span class="n">events</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">)))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">root</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">event</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="o">==</span> <span class="s">&#39;end&#39;</span> <span class="ow">and</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="ow">in</span> <span class="n">tags</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">elem</span>
+            <span class="n">root</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">SAMPLE_FILE</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output</span><span class="p">:</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;osm&gt;</span><span class="se">\n</span><span class="s">  &#39;</span><span class="p">)</span>
+
+    <span class="c"># Write every kth top level element</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">get_element</span><span class="p">(</span><span class="n">OSM_FILE</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+
+    <span class="n">output</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&lt;/osm&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<h5>checking the size of the files</h5>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="k">print</span> <span class="s">&#39;Size of the entire file is:&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">OSM_FILE</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span>
+<span class="k">print</span> <span class="s">&#39;Size of sample file is: &#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">SAMPLE_FILE</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span>
+</pre></div>
+
+
+<div class="highlight"><pre>Size of the entire file is: 67018416
+Size of sample file is:  13553023
+</pre></div>
+
+
+<h5>Checking format of the street name</h5>
+<div class="highlight"><pre><span class="c">#Added the more common street types I would encounter and added more as needed according to the ammount of results for each street type</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="c">#Expected street names</span>
+
+<span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Calle&quot;</span><span class="p">,</span> <span class="s">&quot;Carrera&quot;</span><span class="p">,</span> <span class="s">&quot;Avenida&quot;</span><span class="p">,</span> <span class="s">&quot;Circular&quot;</span><span class="p">,</span> <span class="s">&quot;Diagonal&quot;</span><span class="p">,</span> <span class="s">&quot;Via&quot;</span><span class="p">,</span> <span class="s">&quot;Autopista&quot;</span><span class="p">,</span> <span class="s">&quot;Transversal&quot;</span><span class="p">]</span>
+
+<span class="c">#Update format</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&quot;calle&quot;</span><span class="p">:</span> <span class="s">&quot;Calle&quot;</span><span class="p">,</span>
+            <span class="s">&quot;CL&quot;</span><span class="p">:</span><span class="s">&#39;Calle&#39;</span><span class="p">,</span>
+            <span class="s">&quot;Cl&quot;</span><span class="p">:</span><span class="s">&#39;Calle&#39;</span><span class="p">,</span>
+            <span class="s">&quot;CALLE&quot;</span><span class="p">:</span><span class="s">&#39;Calle&#39;</span><span class="p">,</span>
+            <span class="s">&quot;CARRERA&quot;</span><span class="p">:</span><span class="s">&#39;Carrera&#39;</span><span class="p">,</span>
+           <span class="s">&#39;carrera&#39;</span><span class="p">:</span><span class="s">&#39;Carrera&#39;</span><span class="p">,</span>
+            <span class="p">}</span>
+
+<span class="n">cities_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\S+\.?&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="c">#Expected city names</span>
+<span class="n">city_mapping</span><span class="o">=</span> <span class="p">{</span><span class="s">&#39;MEDELLIN&#39;</span><span class="p">:</span><span class="s">&#39;Medellin&#39;</span><span class="p">,</span>
+              <span class="s">&#39;medellin&#39;</span><span class="p">:</span><span class="s">&#39;Medellin&#39;</span><span class="p">,</span>
+               <span class="p">}</span>
+<span class="c">#Cities that are outside of Medellin</span>
+<span class="n">not_medellin</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Envigado&#39;</span><span class="p">,</span> <span class="s">&#39;Sabaneta&#39;</span><span class="p">,</span> <span class="s">&#39;La Ceja&#39;</span><span class="p">,</span> <span class="s">&#39;Vereda Pontezuela Rionegro Antioquia Colombia&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Copacabana&#39;</span><span class="p">,</span><span class="s">&#39;La Ceja del Tambo&#39;</span><span class="p">,</span> <span class="s">&#39;Marinilla&#39;</span><span class="p">,</span> <span class="s">&#39;El Carmen de Viboral&#39;</span><span class="p">,</span><span class="s">&#39;El Carmen De Viboral&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Sabaneta, Antioquia&#39;</span><span class="p">,</span> <span class="s">&#39;Bello&#39;</span><span class="p">,</span> <span class="s">&#39;Rionegro&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">is_street_name</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check if element key is street.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;addr:street&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">is_city_name</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check if element key is city.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;tag&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;addr:city&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">is_country_name</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check if element key is country.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">tag</span><span class="o">==</span><span class="s">&#39;tag&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;addr:country&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">is_house_number</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check if element key is housenumber.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span><span class="s">&#39;tag&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;addr:housenumber&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">audit_street</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check and update the content and format of the street name.&#39;&#39;&#39;</span>
+    <span class="n">street</span><span class="o">=</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">street</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+        <span class="n">street_update</span><span class="o">=</span> <span class="n">update_name</span><span class="p">(</span><span class="n">street</span><span class="p">,</span> <span class="n">mapping</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">)</span> <span class="c"># Some street had extra information followed by a &#39;;&#39;</span>
+        <span class="n">y</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">street_update</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">y</span><span class="p">:</span>
+            <span class="n">newsemi</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">street_update</span><span class="p">)</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">)</span><span class="c">## some street names have the full address including the house number</span>
+        <span class="n">extra</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">newsemi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="n">extra</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">newsemi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">new</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">street</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">audit_cities</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check and update the format of the city.&#39;&#39;&#39;</span>
+    <span class="n">city</span><span class="o">=</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">city</span> <span class="o">!=</span><span class="s">&#39;Medellin&#39;</span> <span class="ow">and</span> <span class="n">city</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">not_medellin</span><span class="p">:</span>
+        <span class="n">city_update</span> <span class="o">=</span><span class="n">update_city</span><span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="n">city_mapping</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">city_update</span>
+    <span class="k">else</span><span class="p">:</span>        
+        <span class="k">return</span> <span class="n">city</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">audit_country</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Check and update the format of the country.&#39;&#39;&#39;</span>
+    <span class="n">country</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">country</span> <span class="o">!=</span> <span class="s">&#39;Colombia&#39;</span><span class="p">:</span>
+        <span class="n">new_country</span> <span class="o">=</span> <span class="n">country</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="s">&#39;Colombia&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_country</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">country</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Update the format of the street using the mapping dictionary.&#39;&#39;&#39;</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">name</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">update_city</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">city_mappingmapping</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Update the format of the city using the mapping dictionary.&#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">city_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">name</span>
+</pre></div>
+
+
+<h5>Getting data ready to transfer to csv</h5>
+<div class="highlight"><pre><span class="n">NODE_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="s">&#39;uid&#39;</span><span class="p">,</span> <span class="s">&#39;version&#39;</span><span class="p">,</span> <span class="s">&#39;changeset&#39;</span><span class="p">,</span> <span class="s">&#39;timestamp&#39;</span><span class="p">]</span>
+<span class="n">NODE_TAGS_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">]</span>
+<span class="n">WAY_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="s">&#39;uid&#39;</span><span class="p">,</span> <span class="s">&#39;version&#39;</span><span class="p">,</span> <span class="s">&#39;changeset&#39;</span><span class="p">,</span> <span class="s">&#39;timestamp&#39;</span><span class="p">]</span>
+<span class="n">WAY_TAGS_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">]</span>
+<span class="n">WAY_NODES_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="s">&#39;node_id&#39;</span><span class="p">,</span> <span class="s">&#39;position&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">shape_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">node_attr_fields</span><span class="o">=</span><span class="n">NODE_FIELDS</span><span class="p">,</span> <span class="n">way_attr_fields</span><span class="o">=</span><span class="n">WAY_FIELDS</span><span class="p">,</span>
+                  <span class="n">problem_chars</span><span class="o">=</span><span class="n">PROBLEMCHARS</span><span class="p">,</span> <span class="n">default_tag_type</span><span class="o">=</span><span class="s">&#39;regular&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Clean and shape node or way XML element to Python dict.&quot;&quot;&quot;</span>
+
+    <span class="n">node_attribs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">way_attribs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">way_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># Handle secondary tags the same way for both node and way elements</span>
+
+    <span class="n">tags_dict</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">waynodes_dict</span><span class="o">=</span><span class="p">{}</span>
+
+
+    <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;node&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">node_attr_fields</span><span class="p">:</span>
+            <span class="n">node_attribs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">problem_chars</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]):</span>
+                <span class="k">continue</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_city_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                    <span class="n">city</span> <span class="o">=</span> <span class="n">audit_cities</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">city</span>
+                <span class="k">elif</span> <span class="n">is_street_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                    <span class="n">street</span> <span class="o">=</span> <span class="n">audit_street</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">street</span>
+                <span class="k">elif</span> <span class="n">is_country_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                    <span class="n">country</span><span class="o">=</span><span class="n">audit_country</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">country</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span>
+
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">pos</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span><span class="p">[</span><span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span>
+                    <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;regular&#39;</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">tags_dict</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;node&#39;</span><span class="p">:</span> <span class="n">node_attribs</span><span class="p">,</span> <span class="s">&#39;node_tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">}</span>
+
+    <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;way&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">way_attr_fields</span><span class="p">:</span>
+            <span class="n">way_attribs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">nd</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nd</span><span class="o">.</span><span class="n">tag</span><span class="o">==</span><span class="s">&#39;nd&#39;</span><span class="p">:</span>
+                <span class="n">posnd</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">way_nodes</span><span class="p">)</span>
+                <span class="n">waynodes_dict</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="n">waynodes_dict</span><span class="p">[</span><span class="s">&#39;node_id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">nd</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;ref&#39;</span><span class="p">]</span>
+                <span class="n">waynodes_dict</span><span class="p">[</span><span class="s">&#39;position&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">posnd</span>
+                <span class="n">way_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">waynodes_dict</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">element</span><span class="o">.</span><span class="n">iter</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_city_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                <span class="n">city</span> <span class="o">=</span> <span class="n">audit_cities</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">city</span>
+            <span class="k">elif</span> <span class="n">is_street_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                <span class="n">street</span> <span class="o">=</span> <span class="n">audit_street</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">street</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;v&#39;</span><span class="p">]</span>
+            <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+            <span class="c">#tags_dict[&#39;value&#39;]=tag.attrib[&#39;v&#39;]</span>
+            <span class="k">if</span> <span class="n">pos</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span><span class="p">[</span><span class="n">pos</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span><span class="p">[:</span><span class="n">pos</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">key</span>
+                <span class="n">tags_dict</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span><span class="o">=</span><span class="s">&#39;regular&#39;</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">tags_dict</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;way&#39;</span><span class="p">:</span> <span class="n">way_attribs</span><span class="p">,</span> <span class="s">&#39;way_nodes&#39;</span><span class="p">:</span> <span class="n">way_nodes</span><span class="p">,</span> <span class="s">&#39;way_tags&#39;</span><span class="p">:</span> <span class="n">tags</span><span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">validate_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span><span class="n">schema</span><span class="o">=</span><span class="n">SCHEMA</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raise ValidationError if element does not match schema.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">field</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">validator</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">iteritems</span><span class="p">())</span>
+        <span class="n">message_string</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Element of type &#39;{0}&#39; has the following errors:</span><span class="se">\n</span><span class="s">{1}&quot;</span>
+        <span class="n">error_strings</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s">&quot;{0}: {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">errors</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">cerberus</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span>
+            <span class="n">message_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_strings</span><span class="p">))</span>
+        <span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">UnicodeDictWriter</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extend csv.DictWriter to handle Unicode input.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">writerow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UnicodeDictWriter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">writerow</span><span class="p">({</span>
+            <span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">writerows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">process_map</span><span class="p">(</span><span class="n">file_in</span><span class="p">,</span> <span class="n">validate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Iteratively process each XML element and write to csv(s).&quot;&quot;&quot;</span>
+    <span class="c">#audit_cities(file_in)</span>
+
+
+    <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">NODES_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">nodes_file</span><span class="p">,</span> \
+         <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">NODE_TAGS_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">nodes_tags_file</span><span class="p">,</span> \
+         <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">WAYS_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ways_file</span><span class="p">,</span> \
+         <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">WAY_NODES_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">way_nodes_file</span><span class="p">,</span> \
+         <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">WAY_TAGS_PATH</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">way_tags_file</span><span class="p">:</span>
+
+        <span class="n">nodes_writer</span> <span class="o">=</span> <span class="n">UnicodeDictWriter</span><span class="p">(</span><span class="n">nodes_file</span><span class="p">,</span> <span class="n">NODE_FIELDS</span><span class="p">)</span>
+        <span class="n">node_tags_writer</span> <span class="o">=</span> <span class="n">UnicodeDictWriter</span><span class="p">(</span><span class="n">nodes_tags_file</span><span class="p">,</span> <span class="n">NODE_TAGS_FIELDS</span><span class="p">)</span>
+        <span class="n">ways_writer</span> <span class="o">=</span> <span class="n">UnicodeDictWriter</span><span class="p">(</span><span class="n">ways_file</span><span class="p">,</span> <span class="n">WAY_FIELDS</span><span class="p">)</span>
+        <span class="n">way_nodes_writer</span> <span class="o">=</span> <span class="n">UnicodeDictWriter</span><span class="p">(</span><span class="n">way_nodes_file</span><span class="p">,</span> <span class="n">WAY_NODES_FIELDS</span><span class="p">)</span>
+        <span class="n">way_tags_writer</span> <span class="o">=</span> <span class="n">UnicodeDictWriter</span><span class="p">(</span><span class="n">way_tags_file</span><span class="p">,</span> <span class="n">WAY_TAGS_FIELDS</span><span class="p">)</span>
+
+        <span class="n">nodes_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">node_tags_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">ways_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">way_nodes_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">way_tags_writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+
+        <span class="n">validator</span> <span class="o">=</span> <span class="n">cerberus</span><span class="o">.</span><span class="n">Validator</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">get_element</span><span class="p">(</span><span class="n">file_in</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;node&#39;</span><span class="p">,</span> <span class="s">&#39;way&#39;</span><span class="p">)):</span>
+            <span class="n">el</span> <span class="o">=</span> <span class="n">shape_element</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">el</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">validate</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">validate_element</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">validator</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;node&#39;</span><span class="p">:</span>
+                    <span class="n">nodes_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="s">&#39;node&#39;</span><span class="p">])</span>
+                    <span class="n">node_tags_writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="s">&#39;node_tags&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;way&#39;</span><span class="p">:</span>
+                    <span class="n">ways_writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="s">&#39;way&#39;</span><span class="p">])</span>
+                    <span class="n">way_nodes_writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="s">&#39;way_nodes&#39;</span><span class="p">])</span>
+                    <span class="n">way_tags_writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">el</span><span class="p">[</span><span class="s">&#39;way_tags&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="n">process_map</span><span class="p">(</span><span class="n">SAMPLE_FILE</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>SQL</h2>
+<h5>Create and load tables</h5>
+<div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">csv</span><span class="o">,</span> <span class="nn">sqlite3</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;Medellin.db&#39;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE nodes(id int,lat float,lon float,user string,uid integer,version string,changeset integer,timestamp string);&#39;</span><span class="p">)</span>
+<span class="c">### Nodes table</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;nodes.csv&#39;</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">to_db</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;lat&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;lon&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;uid&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;changeset&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;timestamp&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s">&#39;INSERT INTO nodes(id, lat, lon, user, uid, version, changeset, timestamp) VALUES (?,?,?,?,?,?,?,?);&#39;</span><span class="p">,</span> <span class="n">to_db</span><span class="p">)</span>
+<span class="c">#####Nodes tags table</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE nodes_tags(id INTEGER, key TEXT, value TEXT, type TEXT);&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;nodes_tags.csv&#39;</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">to_db</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s">&#39;INSERT INTO nodes_tags(id, key, value, type) VALUES (?,?,?,?);&#39;</span><span class="p">,</span> <span class="n">to_db</span><span class="p">)</span>
+
+<span class="c">####ways table</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE ways(id, user, uid, version, changeset, timestamp);&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;ways.csv&#39;</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">to_db</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;uid&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;version&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;changeset&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;timestamp&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s">&#39;INSERT INTO ways(id, user, uid, version, changeset, timestamp) VALUES (?,?,?,?,?,?);&#39;</span><span class="p">,</span> <span class="n">to_db</span><span class="p">)</span>
+
+<span class="c">### ways_nodes table</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE ways_nodes(id, node_id, position);&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;ways_nodes.csv&#39;</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">to_db</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;node_id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;position&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s">&#39;INSERT INTO ways_nodes(id, node_id, position) VALUES (?,?,?);&#39;</span><span class="p">,</span> <span class="n">to_db</span><span class="p">)</span>
+
+<span class="c">### ways_tags table</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;CREATE TABLE ways_tags(id, key, value, type);&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;ways_tags.csv&#39;</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">doc</span><span class="p">:</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">to_db</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span><span class="nb">unicode</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span><span class="s">&#39;utf8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dr</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s">&#39;INSERT INTO ways_tags(id, key, value, type) VALUES (?,?,?,?);&#39;</span><span class="p">,</span> <span class="n">to_db</span><span class="p">)</span>
+
+<span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+
+
+<p><a href="/pdfs/P3DataWranglingMedellinColombia2.docx.pdf">Analysis</a></p>
+    </div>
+
+    <footer>
+        <div class="tags">
+            <a href="/tag/python.html">Python</a>
+            <a href="/tag/data-verification.html">Data Verification</a>
+            <a href="/tag/data-cleaning.html">Data Cleaning</a>
+            <a href="/tag/sql.html">SQL</a>
+            <a href="/tag/ipython-notebook.html">Ipython Notebook</a>
+        </div>
+        <div class="pure-g post-footer">
+            <div class="pure-u-1 pure-u-md-1-2">
+                <div class="pure-g poster-info">
+                    <div class="pure-u">
+                        <a href="/author/celaechavarria.html"><img src="https://s.yimg.com/dg/users/130vBN4EaAAEDLyEn4Ael0TRwTCjboA==.large.png" alt=""></a>
+                    </div>
+                    <div class="pure-u-3-4">
+                        <h3 class="author-name"><a href="/author/celaechavarria.html">CelaEchavarria</a></h3>
+                        <p class="author-description">
+                          “I am the master of my fate; I am the captain of my soul.” 
+                                    ― William Ernest Henley, Invictus
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </footer>
+
+
+</div>
+
+
+
+    <footer class="index-footer">
+
+        <a href="/" title="CelaEchavarria">CelaEchavarria</a>
+        <a href="/pages/about-me.html">About Me</a>
+        <a href="/category/udacity-projects.html">Udacity Projects</a>
+        <a href="http://getpelican.com/">Pelican</a>
+        <a href="http://python.org/">Python.org</a>
+        <a href="https://www.udacity.com/">Udacity</a>
+
+    </footer>
+
+</body>
+</html>
